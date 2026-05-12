@@ -27,7 +27,9 @@ App.cli do:
 # `config/` directory.
 #
 App.services do:
-
+  # init Logger Service
+  logger.init()
+  
   # Initialize the global event emitter service. This service provides a
   # singleton event emitter that can be used throughout the application to
   # emit and listen for custom events.

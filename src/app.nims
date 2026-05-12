@@ -12,6 +12,7 @@ elif defined(linux):
   --passL:"/usr/local/lib/libevent_pthreads.a"
   --passC:"-I /usr/local/include"
 
+--deepCopy:on
 --mm:arc
 --define:webapp # todo supWebApp
 --define:ssl

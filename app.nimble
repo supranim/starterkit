@@ -25,8 +25,6 @@ requires "limiter#head"
 requires "emitter#head"
 requires "bag"
 requires "tim#head"
-requires "jsony"
-requires "zippy"
 requires "twofa"
 
 task prod, "Generate a production build":
