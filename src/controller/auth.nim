@@ -1,7 +1,12 @@
 import std/[os, times, sugar, json, sequtils]
 
-import pkg/[bag, jsony, ozark]
+import pkg/[bag, jsony]
 import pkg/kapsis/interactive/prompts
+
+when defined supraDBMainSqlite:
+  import pkg/ozark/driver/sqlite
+else:
+  import pkg/ozark/driver/psql
 
 import pkg/supranim/[core/paths, controller]
 import pkg/supranim/support/[auth, nanoid]

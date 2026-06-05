@@ -19,13 +19,13 @@ binDir        = "build"
 # Dependencies
 
 requires "nim >= 2.0.0"
-requires "supranim#head"
-requires "supranim_session"
-requires "limiter#head"
-requires "emitter#head"
-requires "bag"
-requires "tim#head"
-requires "twofa"
+requires "supranim >= 0.1.0"
+requires "supranim_session >= 0.1.0"
+requires "limiter >= 0.1.0"
+requires "emitter >= 0.1.0"
+requires "bag >= 0.1.0"
+requires "tim >= 0.2.2"
+requires "twofa >= 0.1.0"
 
 task prod, "Generate a production build":
   # A production build task that compiles the main application

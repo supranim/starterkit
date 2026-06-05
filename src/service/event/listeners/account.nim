@@ -1,10 +1,15 @@
 import std/[options, tables, times, strformat, json, os, strutils]
 
-import pkg/[ozark, twofa, openparser/yaml]
+import pkg/[twofa, openparser/yaml]
 import pkg/kapsis/interactive/prompts
 
 import pkg/supranim/service/events
 import pkg/supranim/support/[url, auth, nanoid]
+
+when defined supraDBMainSqlite:
+  import pkg/ozark/driver/sqlite
+else:
+  import pkg/ozark/driver/psql
 
 import ../../provider/db
 
@@ -39,8 +44,7 @@ listener "account.password.request":
         for anyPassReq in anyPassRequests:
           # todo enimsql must be able to automatically
           # parse columns with DateTime type
-          let expValue = anyPassReq.getExpiresAt()
-          let expiresAt: DateTime = times.parse(expValue, "yyyy-MM-dd HH:mm:sszz")
+          let expiresAt: DateTime = fromDbValue[DateTime](anyPassReq.getExpiresAt())
       
           if expiresAt > now():
             # the already generated password reset link is still valid

@@ -1,8 +1,14 @@
 import std/[os, times, json, options, sequtils]
 
-import pkg/[bag, ozark, twofa, e2ee]
+import pkg/[bag, twofa, e2ee]
 import pkg/supranim/[core/paths, controller]
 import pkg/supranim/support/auth
+
+when defined supraDBMainSqlite:
+  import pkg/ozark/driver/sqlite
+else:
+  import pkg/ozark/driver/psql
+
 import ../service/provider/[db, session, tim]
 
 ctrl getAccount:
@@ -52,7 +58,8 @@ ctrl postAccountProfile:
       let currentUser = Models.table(Users)
                         .select(["id", "email"])
                         .where("id", userSession.getUserId().get())
-                        .getAll().first()
+                        .getAll()
+                        .first()
       if data["email"] != currentUser.getEmail():
         # if the email is being updated, we need to re-verify the email address
         # by generating a new confirmation token and sending a confirmation email
@@ -127,22 +134,30 @@ ctrl getAccountVerify:
       withDBPool do:
         let dbres {.inject.} =
             Models.table(UserAccountConfirmations)
-                  .selectAll().where("token", q["token"]).getAll()
+                  .selectAll()
+                  .where("token", q["token"])
+                  .getAll()
+        
         # check if confirmation token is still valid (not expired)
         if not dbres.isEmpty():
           let confirmation {.inject.} = dbres.first()
           let expValue = confirmation.getExpiresAt()
-          let expiresAt: DateTime = times.parse(expValue, "yyyy-MM-dd HH:mm:sszz")
+          var expiresAt: DateTime
+          try:
+            expiresAt = fromDbValue[DateTime](expValue)
+          except TimeParseError as e:
+            userSession.notify("Invalid expiration time for the confirmation token.", some("/auth/login"))
+            go getAccount # redirects to `/account`
+
           if expiresAt <= now():
             userSession.notify("The confirmation token has expired.", some("/auth/login"))
             go getAccount # redirects to `/account`
 
           # update the user account to set the is_confirmed field to true
-          Models.table(Users).update({
-                  "is_confirmed": "true"
-                }).where("id",
-                  confirmation.getUserId()
-                ).exec()
+          Models.table(Users)
+                .update({"is_confirmed": "true"})
+                .where("id", confirmation.getUserId())
+                .exec()
           
           # delete the confirmation token from the database
           Models.table(UserAccountConfirmations)

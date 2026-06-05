@@ -13,7 +13,7 @@ elif defined(linux):
   --passC:"-I /usr/local/include"
 
 --deepCopy:on
---mm:arc
+--mm:atomicArc
 --define:webapp # todo supWebApp
 --define:ssl
 --define:supraFileserver

@@ -1,6 +1,10 @@
 import std/[strutils, tables, times, macros, os]
-import pkg/[ozark, jsony]
 import pkg/kapsis/interactive/prompts
+
+when defined supraDBMainSqlite:
+  import pkg/ozark/driver/sqlite
+else:
+  import pkg/ozark/driver/psql
 
 import pkg/supranim/core/services
 import pkg/supranim/core/[paths, config]
@@ -24,13 +28,17 @@ initService DB[Global]:
   client do:
     proc init*() =
       loadEnv()
-      ozark.initOzarkDatabase(
-        address = getEnv("database.address"),
-        name = getEnv("database.name"),
-        user = getEnv("database.user"),
-        password = getEnv("database.password")
-      )
-      initOzarkPool(10)
+      when defined supraDBMainSqlite:
+        initOzarkDatabase(address = getEnv("database.name"))
+        initOzarkPool(1)
+      else:
+        initOzarkDatabase(
+          address = getEnv("database.address"),
+          name = getEnv("database.name"),
+          user = getEnv("database.user"),
+          password = getEnv("database.password")
+        )
+        initOzarkPool(10)
       try:
         withDBPool do:
           # create database tables if not exists
