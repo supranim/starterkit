@@ -14,7 +14,6 @@
 - [x] Forgot password flow with email verification
 - [x] Session management & Flash messages
 - [ ] User management dashboard
-- [x] Made for cool kids by Humans from OpenPeeps!
 
 ## Getting Started
 If this is the first time you're using Nim, check out the [Nim installation guide](https://nim-lang.org/install.html) to set up Nim on your machine. Once you have Nim installed, you can install [Supra](github.com/supranim/supra), the Supranim CLI tool, using Nim's package manager, Nimble:
@@ -36,8 +35,6 @@ cd ./build && ./awesome_project start .
 - 👋 Wanna help? [Fork it!](https://github.com/supranim/supranim/fork)
 - 🎉 Spread the word! **Tell your friends about Supranim**
 - ⚽️ Make a cool web app using Supranim
-- 😎 [Get €20 in cloud credits from Hetzner](https://hetzner.cloud/?ref=Hm0mYGM9NxZ4)
-- 🥰 [Donate via PayPal address](https://www.paypal.com/donate/?hosted_button_id=RJK3ZTDWPL55C)
 
 ### 🎩 License
 Supranim | `MIT` license. [Made by Humans from OpenPeeps](https://github.com/openpeeps).<br>
