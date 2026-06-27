@@ -44,7 +44,7 @@ ctrl postAccountProfile:
   ## POST handle for updating the user profile information
   withSession do:
     let data = req.getFieldsTable.get()
-    bag req.getFields:
+    withBag req.getFields:
       name: tText"Invalid name"
       email: tEmail"Invalid password"
       csrf -> callback do(input: string) -> bool:
@@ -84,7 +84,7 @@ ctrl postAccountSecurity:
   ## POST handle for updating user security settings
   withSession do:
     let data = req.getFieldsTable.get()
-    bag req.getFields:
+    withBag req.getFields:
       current_password: tText"account.password.invalid"
       new_password: tPasswordStrength"account.password_strength"
       csrf -> callback do(input: string) -> bool:

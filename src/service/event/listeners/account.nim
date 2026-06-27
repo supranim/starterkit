@@ -1,3 +1,13 @@
+## This module implements a Supranim event listener for handling user account
+## related events such as password reset requests and account registration.
+## 
+## These event listeners are non-blocking and are executed in the background,
+## allowing the application to continue parsing and processing other events
+## without waiting for the completion of these tasks
+##
+## For more information on how to work with Supranim event listeners, please refer
+## to the official documentation at: https://docs.supranim.com/services/events
+
 import std/[options, tables, times, strformat, json, os, strutils]
 
 import pkg/[twofa, openparser/yaml]
@@ -12,6 +22,8 @@ else:
   import pkg/ozark/driver/psql
 
 import ../../provider/db
+
+import std/macros
 
 from pkg/supranim/application import AppInstance, config
 
@@ -107,13 +119,13 @@ listener "account.register":
                           .select("id")
                           .where("email", fields[0])
                           .getAll()
-      
+
       # check if the user already exists
       # if so, abort the registration process
       if anyUser.isEmpty() == false: return
 
       # otherwise, create a new user account and store it in the database.
-      let (pk, sk) = auth.boxKeys()         # X25519 keys (hex) required for E2EE features like encrypted notes, files, etc.
+      let (pk, sk) = auth.boxKeys()          # X25519 keys (hex) required for E2EE features like encrypted notes, files, etc.
       let (signPk, signSk) = auth.signKeys() # Ed25519 keys (hex) required for signing messages, generating TOTP secrets, etc.
       # sign it with the user secret key to gen a unique totp secret for the user account
       let totpSecret = sign(signSk.secretKeyFromHex(), generateSalt(16).toHex())
@@ -125,7 +137,7 @@ listener "account.register":
           "sk": sk,
           "sign_pk": signPk,
           "sign_sk": signSk,
-          "totp_secret": twofa.genTotpUri(totpSecret.toHex(), "MyApp", "MyCompany"),
+          # "totp_secret": twofa.genTotpUri(totpSecret.toHex(), "MyApp", "MyCompany"),
           "password": auth.hashPassword(fields[1]),
           "created_at": $(now())
         }).execGet()
