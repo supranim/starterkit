@@ -57,7 +57,7 @@ listener "account.password.request":
           # todo enimsql must be able to automatically
           # parse columns with DateTime type
           let expiresAt: DateTime = fromDbValue[DateTime](anyPassReq.getExpiresAt())
-      
+
           if expiresAt > now():
             # the already generated password reset link is still valid
             # omit the generation of a new password reset link
@@ -123,7 +123,7 @@ listener "account.register":
       # check if the user already exists
       # if so, abort the registration process
       if anyUser.isEmpty() == false: return
-
+      
       # otherwise, create a new user account and store it in the database.
       let (pk, sk) = auth.boxKeys()          # X25519 keys (hex) required for E2EE features like encrypted notes, files, etc.
       let (signPk, signSk) = auth.signKeys() # Ed25519 keys (hex) required for signing messages, generating TOTP secrets, etc.

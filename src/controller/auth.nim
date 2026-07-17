@@ -1,6 +1,6 @@
-import std/[os, times, sugar, json, sequtils]
+import std/[os, times, sugar, sequtils]
 
-import pkg/[bag, jsony]
+import pkg/bag
 import pkg/kapsis/interactive/prompts
 
 when defined supraDBMainSqlite:
@@ -49,5 +49,8 @@ ctrl getAuthRegister:
 
 ctrl postAuthRegister:
   ## POST handle for registering a new user
-  register.postRegister()
+  register.postRegister(
+    preHook = (block: discard),
+    postHook = (block: discard)
+  )
 
