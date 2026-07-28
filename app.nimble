@@ -1,19 +1,12 @@
 # Package
 
-# version       = "0.1.0"
-# author        = "$supraAuthorNimble"
-# description   = "A new awesome Supranim application"
-# license       = "$supraAuthorLicense"
-# srcDir        = "src"
-# bin           = @["$supraBinName"]
-# binDir        = "build"
-version       = "0.1.0"
-author        = "George Lemon"
-description   = "A new awesome Supranim application"
-license       = "MIT"
-srcDir        = "src"
-bin           = @["app"]
-binDir        = "build"
+version        = "0.1.0"
+author         = "$supraAuthorNimble"
+description    = "A new awesome Supranim application"
+license        = "$supraAuthorLicense"
+srcDir         = "src"
+bin            = @["$supraBinName"]
+binDir         = "build"
 
 
 # Dependencies
