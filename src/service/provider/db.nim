@@ -13,7 +13,7 @@ import pkg/supranim/support/[nanoid, auth, url]
 import ./events
 
 initService DB[Global]:
-  backend do:
+  state do:
     macro loadModels =
       # auto discover /database/models/*.nim
       # nim files prefixed with `!` will be ignored
@@ -25,7 +25,7 @@ initService DB[Global]:
           add result, nnkExportStmt.newTree(ident(f.name))
     loadModels() # autoload available models
 
-  client do:
+  api do:
     proc init*() =
       loadEnv()
       when defined supraDBMainSqlite:

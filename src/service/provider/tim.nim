@@ -13,7 +13,7 @@ export times.now, times.format
 initService Tim[Global]:
   # A singleton service that wraps the Tim Engine
   # and provides a simple interface to render HTML pages
-  backend do:
+  state do:
     var timInstance: TimEngine
     proc init*(src, output, basePath: string; global = newJObject()) =
       ## Initialize Tim Engine as a singleton service
@@ -56,7 +56,7 @@ initService Tim[Global]:
         raise newException(ValueError, "Tim Engine not initialized")
       return timInstance
 
-  client do:
+  api do:
     template render*(view: string, layout: string = "base",
                       httpCode = Http200, local: JsonNode = nil): untyped =
       ## Renders a Tim template and sends it as an HTTP response.
