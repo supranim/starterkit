@@ -1,6 +1,6 @@
 import std/[os, times, json, options, sequtils]
 
-import pkg/[bag, twofa, e2ee]
+import pkg/[bag, twofa]
 import pkg/supranim/[core/paths, controller]
 import pkg/supranim/support/auth
 
@@ -107,7 +107,7 @@ ctrl postAccountSecurity:
       # if the current password provided by the user is incorrect,
       # set the notification and redirect back to the account page
       # with the security tab active.
-      if not e2ee.verifyPassword(data["current_password"], userData.getPassword()):
+      if not auth.verifyPassword(data["current_password"], userData.getPassword()):
         userSession.notify("Current password is incorrect", some("/account?tab=security"))
         go getAccount, [("tab", "security")] # redirects to `/account?tab=security`
 
@@ -117,7 +117,7 @@ ctrl postAccountSecurity:
 
       # if the current password is correct, we can proceed to
       # update the password in the database.
-      let newHashedPassword = e2ee.hashPassword(data["new_password"])
+      let newHashedPassword = auth.hashPassword(data["new_password"])
       Models.table(Users).update({
         "password": newHashedPassword
       }).where("id", session.getUserId()).exec()
