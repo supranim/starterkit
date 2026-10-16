@@ -25,7 +25,7 @@ import ../../provider/db
 
 import std/macros
 
-from pkg/supranim/application import AppInstance, config
+from pkg/supranim/application import AppInstance, config, getInt
 
 listener "account.password.request":
   ## Event listener for requesting a password reset
@@ -80,7 +80,7 @@ listener "account.password.request":
         signature = sign(secretKeyFromHex(user.getSk()), rawToken).toHex()
         token = fmt"{rawToken}:{signature}"
         # token = boxEncrypt(boxRandomBytes().bin2hex, user.getPk(), user.getSk())
-        expInterval = AppInstance().config("session.settings.expiration_time").getInt
+        expInterval = AppInstance().config("session.settings.expiration_time").getInt()
         # default expiration time is 60 minutes.
         # use `config/session.expiration` to customize the expiration time
 
