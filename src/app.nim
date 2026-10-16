@@ -17,14 +17,14 @@ proc startCommand(v: Values) =
   initStartCommand(v, createDirs = false)
 
 App.cli do:
-  start path(directory):
+  start path(project):
     ## Init the app with the given installation path
 
 #
 # Initialize available Service Providers.
 #
 # Configuration files are defined as YAML in the
-# `config/` directory.
+# `src/config/` directory.
 #
 App.services do:
   # init Logger Service
