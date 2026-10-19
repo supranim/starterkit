@@ -4,5 +4,5 @@ nimcache/
 nimblecache/
 htmldocs/
 /src/storage/templates/*
-.env.yml
 .env
+.env.production

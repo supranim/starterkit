@@ -27,16 +27,15 @@ initService DB[Global]:
 
   api do:
     proc init*() =
-      loadEnv()
       when defined supraDBMainSqlite:
-        initOzarkDatabase(address = getEnv("database.name"))
+        initOzarkDatabase(address = getEnv("DB_NAME"))
         initOzarkPool(1)
       else:
         initOzarkDatabase(
-          address = getEnv("database.address"),
-          name = getEnv("database.name"),
-          user = getEnv("database.user"),
-          password = getEnv("database.password")
+          address = getEnv("DB_HOST"),
+          name = getEnv("DB_NAME"),
+          user = getEnv("DB_USER"),
+          password = getEnv("DB_PASS")
         )
         initOzarkPool(10)
       try:
