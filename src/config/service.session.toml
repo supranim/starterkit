@@ -1,0 +1,18 @@
+# Session service provider configuration (TOML).
+[server]
+# The reserved port number for running the current service provider.
+port = 4300
+# Whether the service API can be accessed without requiring an API key.
+require_key = false
+
+[settings]
+# Where to store data: memory, database or filesystem.
+storage_type = "memory"
+# Expiration time in minutes. 0 = no expiration.
+expiration_time = 60
+
+# When storage_type is "database", provide the storage credentials here.
+[settings.storage_database]
+name = "postgres_db"
+user = "postgres"
+password = "postgres"

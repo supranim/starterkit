@@ -1,0 +1,31 @@
+# Session runtime configuration (TOML).
+# Every key is optional: missing keys fall back to the session
+# package defaults (`loadSessionConfig`).
+# Session lifetime, in hours.
+expiration_hours = 720
+
+[cookie]
+name = "ssid"
+# Empty = host-only cookie (recommended for localhost development).
+domain = ""
+path = "/"
+http_only = true
+trust_proxy = true
+# lax, strict or none (none requires secure = "always").
+same_site = "lax"
+# auto, always or never.
+secure = "auto"
+
+[authentication]
+enable_multiple_sessions = true
+enable_remember_me = true
+enable_2fa = false
+
+[authentication.reset_password]
+enable = true
+require_same_device = false
+require_same_ip = false
+
+[registration]
+enable = true
+error_message_prevent_enumeration = false

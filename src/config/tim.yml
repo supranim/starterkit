@@ -1,4 +1,0 @@
-source: ./templates
-output: ./storage/templates
-indent: 2
-minify: true
